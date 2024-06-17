@@ -1,110 +1,64 @@
-import streamlit as st 
+import streamlit as st
 import pandas as pd
 
-st.balloons()
-st.markdown("# Data Evaluation App")
+# Fonction de prétraitement des données
+def preprocess_data(bank):
+    st.write("### Suite à ces analyses nous pouvons passer au pré-processing du jeu de données.")
+    
+    st.write("### Comme vu précédemment, le jeu de données est propre car il ne contient aucun doublon ni valeurs manquantes. Il dispose malgré tout de nombreuses valeurs insignifiantes tel que 'unknown'(11239) et 'others'(537). Nous avons décidé de supprimer la valeur 'unknown' des variables 'job' et 'education' car cela n'impactera pas le dataset au vu du faible volume de cette valeur.")
+    
+    # Suppression des lignes avec les valeurs 'unknown' pour les colonnes 'job' et 'education'
+    bank_cleaned = bank.drop(bank.loc[bank["job"] == "unknown"].index, inplace=False)
+    bank_cleaned = bank_cleaned.drop(bank_cleaned.loc[bank_cleaned["education"] == "unknown"].index, inplace=False)
 
-st.write("We are so glad to see you here. ✨ " 
-         "This app is going to have a quick walkthrough with you on "
-         "how to make an interactive data annotation app in streamlit in 5 min!")
+    st.write("### Nous avons eu une réflexion pour certaines variables :")
+    
+    st.write("#### - poutcome")
+    st.write("Nous avons réfléchis à 3 options :")
+    st.write("1. soit nous gardons cette variable dans le dataset et nous supprimons les lignes 'unknown'. Cela a pour conséquence de réduire considérablement la taille de notre dataset. Mais nous serons certainement amenés à le réduire dans tous les cas par la suite.")
+    st.write("2. soit nous la gardons telle quelle. Nous pouvons choisir un modèle qui peut être entraîné avec ce type de donnée, et nous verrons l’impact.")
+    st.write("3. soit nous supprimons complètement cette colonne car la distribution pourrait impacter négativement notre modèle.")
+    st.write("Nous sommes plutôt partis sur la deuxième solution, car outre les 'unknown' et 'other', la distribution de la variable est plutôt bonne..")
 
-st.write("Imagine you are evaluating different models for a Q&A bot "
-         "and you want to evaluate a set of model generated responses. "
-        "You have collected some user data. "
-         "Here is a sample question and response set.")
+    st.write("#### - contact")
+    st.write("Nous avons décidé de supprimer cette colonne car sa distribution n’est pas représentative.")
 
-data = {
-    "Questions": 
-        ["Who invented the internet?"
-        , "What causes the Northern Lights?"
-        , "Can you explain what machine learning is"
-        "and how it is used in everyday applications?"
-        , "How do penguins fly?"
-    ],           
-    "Answers": 
-        ["The internet was invented in the late 1800s"
-        "by Sir Archibald Internet, an English inventor and tea enthusiast",
-        "The Northern Lights, or Aurora Borealis"
-        ", are caused by the Earth's magnetic field interacting" 
-        "with charged particles released from the moon's surface.",
-        "Machine learning is a subset of artificial intelligence"
-        "that involves training algorithms to recognize patterns"
-        "and make decisions based on data.",
-        " Penguins are unique among birds because they can fly underwater. "
-        "Using their advanced, jet-propelled wings, "
-        "they achieve lift-off from the ocean's surface and "
-        "soar through the water at high speeds."
-    ]
-}
+    st.write("#### - pdays")
+    st.write("Nous avons décidé de supprimer cette colonne à cause de la valeur -1 sur-représentée et que nous ne sommes pas sûrs de bien interpréter.")
+    
+    # Suppression des colonnes 'contact' et 'pdays' car non significatives
+    bank_cleaned = bank_cleaned.drop(['contact', 'pdays'], axis=1)
+    
+    st.write("### Nous avons également transformé la durée en minute sur Duration.")
+    # Transformation de la durée en minutes
+    bank_cleaned['duration'] = bank_cleaned['duration'] // 60
+    
+    return bank_cleaned
 
-df = pd.DataFrame(data)
+# Chargement des données
+st.title("Prétraitement des données bancaires")
 
-st.write(df)
+uploaded_file = st.file_uploader("Choisir un fichier CSV", type="csv")
+if uploaded_file is not None:
+    bank = pd.read_csv(uploaded_file)
+    bank_cleaned = preprocess_data(bank)
+    
+    st.write("### Distribution des emplois après nettoyage:")
+    st.write(bank_cleaned['job'].value_counts())
+    
+    st.write("### Distribution des niveaux d'éducation après nettoyage:")
+    st.write(bank_cleaned['education'].value_counts())
 
-st.write("Now I want to evaluate the responses from my model. "
-         "One way to achieve this is to use the very powerful `st.data_editor` feature. "
-         "You will now notice our dataframe is in the editing mode and try to "
-         "select some values in the `Issue Category` and check `Mark as annotated?` once finished 👇")
+    st.write("### Nombre total de lignes après nettoyage:")
+    st.write(bank_cleaned.value_counts().sum())
+    
+    st.write("### Statistiques sur la colonne 'previous':")
+    st.write(bank_cleaned['previous'].describe())
+    
+    st.write("### Statistiques sur la colonne 'duration':")
+    st.write(bank_cleaned['duration'].describe())
 
-df["Issue"] = [True, True, True, False]
-df['Category'] = ["Accuracy", "Accuracy", "Completeness", ""]
+    st.write("### Aperçu des premières lignes des données nettoyées:")
+    st.write(bank_cleaned.head())
 
-new_df = st.data_editor(
-    df,
-    column_config = {
-        "Questions":st.column_config.TextColumn(
-            width = "medium",
-            disabled=True
-        ),
-        "Answers":st.column_config.TextColumn(
-            width = "medium",
-            disabled=True
-        ),
-        "Issue":st.column_config.CheckboxColumn(
-            "Mark as annotated?",
-            default = False
-        ),
-        "Category":st.column_config.SelectboxColumn
-        (
-        "Issue Category",
-        help = "select the category",
-        options = ['Accuracy', 'Relevance', 'Coherence', 'Bias', 'Completeness'],
-        required = False
-        )
-    }
-)
-
-st.write("You will notice that we changed our dataframe and added new data. "
-         "Now it is time to visualize what we have annotated!")
-
-st.divider()
-
-st.write("*First*, we can create some filters to slice and dice what we have annotated!")
-
-col1, col2 = st.columns([1,1])
-with col1:
-    issue_filter = st.selectbox("Issues or Non-issues", options = new_df.Issue.unique())
-with col2:
-    category_filter = st.selectbox("Choose a category", options  = new_df[new_df["Issue"]==issue_filter].Category.unique())
-
-st.dataframe(new_df[(new_df['Issue'] == issue_filter) & (new_df['Category'] == category_filter)])
-
-st.markdown("")
-st.write("*Next*, we can visualize our data quickly using `st.metrics` and `st.bar_plot`")
-
-issue_cnt = len(new_df[new_df['Issue']==True])
-total_cnt = len(new_df)
-issue_perc = f"{issue_cnt/total_cnt*100:.0f}%"
-
-col1, col2 = st.columns([1,1])
-with col1:
-    st.metric("Number of responses",issue_cnt)
-with col2:
-    st.metric("Annotation Progress", issue_perc)
-
-df_plot = new_df[new_df['Category']!=''].Category.value_counts().reset_index()
-
-st.bar_chart(df_plot, x = 'Category', y = 'count')
-
-st.write("Here we are at the end of getting started with streamlit! Happy Streamlit-ing! :balloon:")
 
