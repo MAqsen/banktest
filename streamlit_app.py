@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 
 # URL du jeu de données
-url = 'https://raw.githubusercontent.com/MAqsen/banktest/main/bank%20dataset.csv'
+url = 'https://raw.githubusercontent.com/sdrcr74/bank_nov23/main/bank.csv'
 bank = pd.read_csv(url)
 
 # Affichage de l'image et des titres
