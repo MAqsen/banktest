@@ -6,13 +6,7 @@ url = 'https://raw.githubusercontent.com/sdrcr74/bank_nov23/main/bank.csv'
 
 # Chargement du jeu de données
 bank = pd.read_csv(url)
-# Téléchargement du fichier
-uploaded_file = st.file_uploader("Choisir un fichier CSV", type="csv")
-if uploaded_file is not None:
-    bank = pd.read_csv(uploaded_file)
-    bank_cleaned = preprocess_data(bank)
-else:
-    st.write("Veuillez télécharger un fichier CSV pour commencer le prétraitement des données.")
+
 
 # Affichage de l'image et des titres
 st.image("https://raw.githubusercontent.com/sdrcr74/bank_nov23/main/logo2.jpeg")
@@ -83,11 +77,6 @@ bank_cleaned['duration'] = bank_cleaned['duration'] // 60
     st.write(bank_cleaned.head())
     st.write("### Nombre total de lignes après nettoyage:")
     st.write(bank_cleaned.shape[0])
-    return bank_cleaned
-
-    st.write("### Aperçu des premières lignes des données nettoyées:")
-    st.write(bank_cleaned.head())
-
     # Affichage côte à côte des tableaux de statistiques
     col1, col2 = st.columns(2)
     
@@ -98,4 +87,16 @@ bank_cleaned['duration'] = bank_cleaned['duration'] // 60
     with col2:
         st.write("### Outliers sur la colonne 'duration':")
         st.write(bank_cleaned['duration'].describe())
+    return bank_cleaned
+
+# Téléchargement du fichier
+uploaded_file = st.file_uploader("Choisir un fichier CSV", type="csv")
+if uploaded_file is not None:
+    bank = pd.read_csv(uploaded_file)
+    bank_cleaned = preprocess_data(bank)
+    st.write("### Aperçu des premières lignes des données nettoyées:")
+    st.write(bank_cleaned.head())
+else:
+    st.write("Veuillez télécharger un fichier CSV pour commencer le prétraitement des données.")
+    
 
