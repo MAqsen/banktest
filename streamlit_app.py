@@ -4,6 +4,7 @@ import pandas as pd
 # URL du jeu de données
 url = 'https://raw.githubusercontent.com/sdrcr74/bank_nov23/main/bank.csv'
 bank = pd.read_csv(url)
+bank_cleaned = preprocess_data(bank)
 
 # Affichage de l'image et des titres
 st.image("https://raw.githubusercontent.com/sdrcr74/bank_nov23/main/logo2.jpeg")
