@@ -35,11 +35,15 @@ bank_cleaned = bank_cleaned.drop(bank_cleaned.loc[bank_cleaned["education"] == "
     bank_cleaned = bank_cleaned.drop(bank_cleaned.loc[bank_cleaned["education"] == "unknown"].index, inplace=False)
     st.write(bank_cleaned.head())
     
-    st.write("### Distribution de Job après nettoyage:")
-    st.write(bank_cleaned['job'].value_counts())
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.write("### Distribution de Job après nettoyage:")
+        st.write(bank_cleaned['job'].value_counts())
     
-    st.write("### Distribution de Education après nettoyage:")
-    st.write(bank_cleaned['education'].value_counts())
+    with col2:
+        st.write("### Distribution de Education après nettoyage:")
+        st.write(bank_cleaned['education'].value_counts())
 
     st.write("Nous avons eu une réflexion pour certaines variables :")
     
