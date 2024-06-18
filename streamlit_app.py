@@ -1,5 +1,5 @@
 import streamlit as st
-url = 'https://raw.githubusercontent.com/sdrcr74/bank_nov23/main/bank.csv'
+url = 'https://raw.githubusercontent.com/MAqsen/banktest/main/bank%20dataset.csv'
 bank = pd.read_csv(url)
 
 # Affichage de l'image et des titres
