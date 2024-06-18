@@ -26,7 +26,7 @@ def preprocess_data(bank):
     st.write("- pdays")
     st.write("Nous avons décidé de supprimer cette colonne à cause de la valeur -1 sur-représentée et que nous ne sommes pas sûrs de bien interpréter.")
     
-    st.write(Suppression des colonnes 'contact' et 'pdays' car non significatives)
+    st.write("Suppression des colonnes 'contact' et 'pdays' car non significatives")
     bank_cleaned = bank_cleaned.drop(['contact', 'pdays'], axis=1)
     
     st.write("Nous avons également transformé la durée en minute sur Duration.")
