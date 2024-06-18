@@ -11,6 +11,8 @@ uploaded_file = st.file_uploader("Choisir un fichier CSV", type="csv")
 if uploaded_file is not None:
     bank = pd.read_csv(uploaded_file)
     bank_cleaned = preprocess_data(bank)
+else:
+    st.write("Veuillez télécharger un fichier CSV pour commencer le prétraitement des données.")
 
 # Affichage de l'image et des titres
 st.image("https://raw.githubusercontent.com/sdrcr74/bank_nov23/main/logo2.jpeg")
@@ -96,5 +98,4 @@ bank_cleaned['duration'] = bank_cleaned['duration'] // 60
     with col2:
         st.write("### Outliers sur la colonne 'duration':")
         st.write(bank_cleaned['duration'].describe())
-else:
-    st.write("Veuillez télécharger un fichier CSV pour commencer le prétraitement des données.")
+
