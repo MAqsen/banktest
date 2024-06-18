@@ -13,6 +13,9 @@ st.markdown("<h1 style='text-align: justify;'>Prédiction du succès d'une campa
 st.subheader("Maxence Malherre, Sophie Dorcier, Stéphane Lascaux, Van-Anh HA")
 st.subheader("NOV23_CONTINU_DA - Datascientest", divider='rainbow')
 
+st.write("### Nombre total de lignes après nettoyage:")
+st.write(bank.shape[0])
+
 # Fonction de prétraitement des données
 def preprocess_data(bank):
     st.write("Suite à ces analyses nous pouvons passer au pré-processing du jeu de données.")
@@ -30,10 +33,10 @@ bank_cleaned = bank_cleaned.drop(bank_cleaned.loc[bank_cleaned["education"] == "
     bank_cleaned = bank_cleaned.drop(bank_cleaned.loc[bank_cleaned["education"] == "unknown"].index, inplace=False)
     st.write(bank_cleaned.head())
      
-    st.write("### Distribution des emplois après nettoyage:")
+    st.write("### Distribution de "Job" après nettoyage:")
     st.write(bank_cleaned['job'].value_counts())
     
-    st.write("### Distribution des niveaux d'éducation après nettoyage:")
+    st.write("### Distribution de "Education" après nettoyage:")
     st.write(bank_cleaned['education'].value_counts())
 
     st.write("Nous avons eu une réflexion pour certaines variables :")
