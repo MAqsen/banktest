@@ -12,7 +12,30 @@ st.image("https://raw.githubusercontent.com/sdrcr74/bank_nov23/main/logo2.jpeg")
 st.markdown("<h1 style='text-align: justify;'>Prédiction du succès d'une campagne de Marketing d’une banque</h1>", unsafe_allow_html=True)
 st.subheader("Maxence Malherre, Sophie Dorcier, Stéphane Lascaux, Van-Anh HA")
 st.subheader("NOV23_CONTINU_DA - Datascientest", divider='rainbow')
+# Titre de la page
+st.title("Prétraitement des données bancaires")
 
+# Téléchargement du fichier
+uploaded_file = st.file_uploader("Choisir un fichier CSV", type="csv")
+if uploaded_file is not None:
+    bank = pd.read_csv(uploaded_file)
+    bank_cleaned = preprocess_data(bank)
+    
+   
+
+    st.write("### Nombre total de lignes après nettoyage:")
+    st.write(bank_cleaned.shape[0])
+    
+    st.write("### Statistiques sur la colonne 'previous':")
+    st.write(bank_cleaned['previous'].describe())
+    
+    st.write("### Statistiques sur la colonne 'duration':")
+    st.write(bank_cleaned['duration'].describe())
+
+    st.write("### Aperçu des premières lignes des données nettoyées:")
+    st.write(bank_cleaned.head())
+else:
+    st.write("Veuillez télécharger un fichier CSV pour commencer le prétraitement des données.")
 # Fonction de prétraitement des données
 def preprocess_data(bank):
     st.write("Suite à ces analyses nous pouvons passer au pré-processing du jeu de données.")
@@ -23,6 +46,11 @@ def preprocess_data(bank):
     bank_cleaned = bank.drop(bank.loc[bank["job"] == "unknown"].index, inplace=False)
     bank_cleaned = bank_cleaned.drop(bank_cleaned.loc[bank_cleaned["education"] == "unknown"].index, inplace=False)
     
+    st.write("### Distribution des emplois après nettoyage:")
+    st.write(bank_cleaned['job'].value_counts())
+    
+    st.write("### Distribution des niveaux d'éducation après nettoyage:")
+    st.write(bank_cleaned['education'].value_counts())
     st.write("Nous avons eu une réflexion pour certaines variables :")
     
     st.write("- poutcome")
@@ -47,31 +75,4 @@ def preprocess_data(bank):
     
     return bank_cleaned
 
-# Titre de la page
-st.title("Prétraitement des données bancaires")
 
-# Téléchargement du fichier
-uploaded_file = st.file_uploader("Choisir un fichier CSV", type="csv")
-if uploaded_file is not None:
-    bank = pd.read_csv(uploaded_file)
-    bank_cleaned = preprocess_data(bank)
-    
-    st.write("### Distribution des emplois après nettoyage:")
-    st.write(bank_cleaned['job'].value_counts())
-    
-    st.write("### Distribution des niveaux d'éducation après nettoyage:")
-    st.write(bank_cleaned['education'].value_counts())
-
-    st.write("### Nombre total de lignes après nettoyage:")
-    st.write(bank_cleaned.shape[0])
-    
-    st.write("### Statistiques sur la colonne 'previous':")
-    st.write(bank_cleaned['previous'].describe())
-    
-    st.write("### Statistiques sur la colonne 'duration':")
-    st.write(bank_cleaned['duration'].describe())
-
-    st.write("### Aperçu des premières lignes des données nettoyées:")
-    st.write(bank_cleaned.head())
-else:
-    st.write("Veuillez télécharger un fichier CSV pour commencer le prétraitement des données.")
