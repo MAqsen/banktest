@@ -17,18 +17,17 @@ def preprocess_data(bank):
     # Suppression des lignes avec les valeurs 'unknown' pour les colonnes 'job' et 'education'
     bank_cleaned = bank.drop(bank.loc[bank["job"] == "unknown"].index, inplace=False)
     bank_cleaned = bank_cleaned.drop(bank_cleaned.loc[bank_cleaned["education"] == "unknown"].index, inplace=False)
-    return bank_cleaned
-
-st.write("Nous avons eu une réflexion pour certaines variables :")
     
-st.write("- poutcome")
-st.write("Nous avons réfléchis à 3 options :")
-st.write("1. soit nous gardons cette variable dans le dataset et nous supprimons les lignes 'unknown'. Cela a pour conséquence de réduire considérablement la taille de notre dataset. Mais nous serons certainement amenés à le réduire dans tous les cas par la suite.")
-st.write("2. soit nous la gardons telle quelle. Nous pouvons choisir un modèle qui peut être entraîné avec ce type de donnée, et nous verrons l’impact.")
-st.write("3. soit nous supprimons complètement cette colonne car la distribution pourrait impacter négativement notre modèle.")
-st.write("Nous sommes plutôt partis sur la deuxième solution, car outre les 'unknown' et 'other', la distribution de la variable est plutôt bonne..")
+    st.write("Nous avons eu une réflexion pour certaines variables :")
+    
+    st.write("- poutcome")
+    st.write("Nous avons réfléchis à 3 options :")
+    st.write("1. soit nous gardons cette variable dans le dataset et nous supprimons les lignes 'unknown'. Cela a pour conséquence de réduire considérablement la taille de notre dataset. Mais nous serons certainement amenés à le réduire dans tous les cas par la suite.")
+    st.write("2. soit nous la gardons telle quelle. Nous pouvons choisir un modèle qui peut être entraîné avec ce type de donnée, et nous verrons l’impact.")
+    st.write("3. soit nous supprimons complètement cette colonne car la distribution pourrait impacter négativement notre modèle.")
+    st.write("Nous sommes plutôt partis sur la deuxième solution, car outre les 'unknown' et 'other', la distribution de la variable est plutôt bonne..")
 
-st.write("- contact")
+    st.write("- contact")
     st.write("Nous avons décidé de supprimer cette colonne car sa distribution n’est pas représentative.")
 
     st.write("- pdays")
@@ -36,8 +35,6 @@ st.write("- contact")
     
     st.write("Suppression des colonnes 'contact' et 'pdays' car non significatives")
     bank_cleaned = bank_cleaned.drop(['contact', 'pdays'], axis=1)
-
-    return bank_cleaned
     
     st.write("Nous avons également transformé la durée en minute sur Duration.")
     # Transformation de la durée en minutes
@@ -70,5 +67,3 @@ if uploaded_file is not None:
 
     st.write("### Aperçu des premières lignes des données nettoyées:")
     st.write(bank_cleaned.head())
-
-
