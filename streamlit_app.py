@@ -1,4 +1,7 @@
 import streamlit as st
+import pandas as pd
+
+# URL du jeu de données
 url = 'https://raw.githubusercontent.com/MAqsen/banktest/main/bank%20dataset.csv'
 bank = pd.read_csv(url)
 
