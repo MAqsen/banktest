@@ -77,6 +77,8 @@ bank_cleaned['duration'] = bank_cleaned['duration'] // 60
     st.write(bank_cleaned.head())
     st.write("### Nombre total de lignes après nettoyage:")
     st.write(bank_cleaned.shape[0])
+    st.write("### Aperçu des premières lignes des données nettoyées:")
+    st.write(bank_cleaned.head())
     # Affichage côte à côte des tableaux de statistiques
     col1, col2 = st.columns(2)
     
