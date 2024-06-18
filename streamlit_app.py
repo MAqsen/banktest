@@ -85,7 +85,7 @@ uploaded_file = st.file_uploader("Choisir un fichier CSV", type="csv")
 if uploaded_file is not None:
     bank = pd.read_csv(uploaded_file)
     bank_cleaned = preprocess_data(bank)
-   st.write("### Aperçu des premières lignes des données nettoyées:")
+    st.write("### Aperçu des premières lignes des données nettoyées:")
     st.write(bank_cleaned.head())
 
     # Affichage côte à côte des tableaux de statistiques
