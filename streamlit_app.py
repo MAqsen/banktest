@@ -1,10 +1,15 @@
 import streamlit as st
 import pandas as pd
 
+# URL du jeu de données
 url = 'https://raw.githubusercontent.com/sdrcr74/bank_nov23/main/bank.csv'
+
+# Chargement du jeu de données
 bank = pd.read_csv(url)
+
+# Affichage de l'image et des titres
 st.image("https://raw.githubusercontent.com/sdrcr74/bank_nov23/main/logo2.jpeg")
-st.markdown("<h1 style='text-align: justify;'>Prédiction du succès d une campagne de Marketing d’une banque</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: justify;'>Prédiction du succès d'une campagne de Marketing d’une banque</h1>", unsafe_allow_html=True)
 st.subheader("Maxence Malherre, Sophie Dorcier, Stéphane Lascaux, Van-Anh HA")
 st.subheader("NOV23_CONTINU_DA - Datascientest", divider='rainbow')
 
@@ -25,11 +30,11 @@ def preprocess_data(bank):
     st.write("1. soit nous gardons cette variable dans le dataset et nous supprimons les lignes 'unknown'. Cela a pour conséquence de réduire considérablement la taille de notre dataset. Mais nous serons certainement amenés à le réduire dans tous les cas par la suite.")
     st.write("2. soit nous la gardons telle quelle. Nous pouvons choisir un modèle qui peut être entraîné avec ce type de donnée, et nous verrons l’impact.")
     st.write("3. soit nous supprimons complètement cette colonne car la distribution pourrait impacter négativement notre modèle.")
-    st.write("Nous sommes plutôt partis sur la deuxième solution, car outre les 'unknown' et 'other', la distribution de la variable est plutôt bonne..")
-
+    st.write("Nous sommes plutôt partis sur la deuxième solution, car outre les 'unknown' et 'other', la distribution de la variable est plutôt bonne.")
+    
     st.write("- contact")
     st.write("Nous avons décidé de supprimer cette colonne car sa distribution n’est pas représentative.")
-
+    
     st.write("- pdays")
     st.write("Nous avons décidé de supprimer cette colonne à cause de la valeur -1 sur-représentée et que nous ne sommes pas sûrs de bien interpréter.")
     
@@ -42,9 +47,10 @@ def preprocess_data(bank):
     
     return bank_cleaned
 
-# Chargement des données
+# Titre de la page
 st.title("Prétraitement des données bancaires")
 
+# Téléchargement du fichier
 uploaded_file = st.file_uploader("Choisir un fichier CSV", type="csv")
 if uploaded_file is not None:
     bank = pd.read_csv(uploaded_file)
@@ -57,7 +63,7 @@ if uploaded_file is not None:
     st.write(bank_cleaned['education'].value_counts())
 
     st.write("### Nombre total de lignes après nettoyage:")
-    st.write(bank_cleaned.value_counts().sum())
+    st.write(bank_cleaned.shape[0])
     
     st.write("### Statistiques sur la colonne 'previous':")
     st.write(bank_cleaned['previous'].describe())
@@ -67,3 +73,5 @@ if uploaded_file is not None:
 
     st.write("### Aperçu des premières lignes des données nettoyées:")
     st.write(bank_cleaned.head())
+else:
+    st.write("Veuillez télécharger un fichier CSV pour commencer le prétraitement des données.")
