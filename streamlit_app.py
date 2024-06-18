@@ -29,6 +29,12 @@ bank_cleaned = bank_cleaned.drop(bank_cleaned.loc[bank_cleaned["education"] == "
     bank_cleaned = bank.drop(bank.loc[bank["job"] == "unknown"].index, inplace=False)
     bank_cleaned = bank_cleaned.drop(bank_cleaned.loc[bank_cleaned["education"] == "unknown"].index, inplace=False)
     st.write(bank_cleaned.head())
+     
+    st.write("### Distribution des emplois après nettoyage:")
+    st.write(bank_cleaned['job'].value_counts())
+    
+    st.write("### Distribution des niveaux d'éducation après nettoyage:")
+    st.write(bank_cleaned['education'].value_counts())
 
     st.write("Nous avons eu une réflexion pour certaines variables :")
     
@@ -75,12 +81,7 @@ uploaded_file = st.file_uploader("Choisir un fichier CSV", type="csv")
 if uploaded_file is not None:
     bank = pd.read_csv(uploaded_file)
     bank_cleaned = preprocess_data(bank)
-    
-    st.write("### Distribution des emplois après nettoyage:")
-    st.write(bank_cleaned['job'].value_counts())
-    
-    st.write("### Distribution des niveaux d'éducation après nettoyage:")
-    st.write(bank_cleaned['education'].value_counts())
+   
 
     st.write("### Nombre total de lignes après nettoyage:")
     st.write(bank_cleaned.shape[0])
