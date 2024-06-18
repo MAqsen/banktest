@@ -88,7 +88,6 @@ bank_cleaned['duration'] = bank_cleaned['duration'] // 60
         st.write(bank_cleaned['duration'].describe())
     return bank_cleaned
     
-# Téléchargement du fichier
-uploaded_file = st.file_uploader("bank dataset")
+
 
 
