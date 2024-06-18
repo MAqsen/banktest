@@ -3,8 +3,9 @@ import pandas as pd
 
 # URL du jeu de données
 url = 'https://raw.githubusercontent.com/sdrcr74/bank_nov23/main/bank.csv'
+
+# Chargement du jeu de données
 bank = pd.read_csv(url)
-bank_cleaned = preprocess_data(bank)
 
 # Affichage de l'image et des titres
 st.image("https://raw.githubusercontent.com/sdrcr74/bank_nov23/main/logo2.jpeg")
@@ -19,9 +20,10 @@ st.title("Preprocessing des données bancaires")
 def preprocess_data(bank):
     st.write("Suite à ces analyses nous pouvons passer au pré-processing du jeu de données.")
     
-    st.write("Comme vu précédemment, le jeu de données est propre car il ne contient aucun doublon ni valeurs manquantes. Il dispose malgré tout de nombreuses valeurs insignifiantes tel que 'unknown'(11239) et 'others'(537). Nous avons décidé de supprimer la valeur 'unknown' des variables 'job' et 'education' car cela n'impactera pas le dataset au vu du faible volume de cette valeur.")
+    st.write("Comme vu précédemment, le jeu de données est propre car il ne contient aucun doublon ni valeurs manquantes. Il dispose malgré tout de nombreuses valeurs insignifiantes telles que 'unknown' (11239) et 'others' (537). Nous avons décidé de supprimer la valeur 'unknown' des variables 'job' et 'education' car cela n'impactera pas le dataset au vu du faible volume de cette valeur.")
     st.write("### Nombre total de lignes avant nettoyage:")
     st.write(bank.shape[0])
+
     # Suppression des lignes avec les valeurs 'unknown' pour les colonnes 'job' et 'education'
     code = """
 # Suppression des lignes avec les valeurs 'unknown' pour les colonnes 'job' et 'education'
@@ -32,7 +34,7 @@ bank_cleaned = bank_cleaned.drop(bank_cleaned.loc[bank_cleaned["education"] == "
     bank_cleaned = bank.drop(bank.loc[bank["job"] == "unknown"].index, inplace=False)
     bank_cleaned = bank_cleaned.drop(bank_cleaned.loc[bank_cleaned["education"] == "unknown"].index, inplace=False)
     st.write(bank_cleaned.head())
-     
+    
     st.write("### Distribution de Job après nettoyage:")
     st.write(bank_cleaned['job'].value_counts())
     
@@ -42,10 +44,10 @@ bank_cleaned = bank_cleaned.drop(bank_cleaned.loc[bank_cleaned["education"] == "
     st.write("Nous avons eu une réflexion pour certaines variables :")
     
     st.write("- poutcome")
-    st.write("Nous avons réfléchis à 3 options :")
-    st.write("1. soit nous gardons cette variable dans le dataset et nous supprimons les lignes 'unknown'. Cela a pour conséquence de réduire considérablement la taille de notre dataset. Mais nous serons certainement amenés à le réduire dans tous les cas par la suite.")
-    st.write("2. soit nous la gardons telle quelle. Nous pouvons choisir un modèle qui peut être entraîné avec ce type de donnée, et nous verrons l’impact.")
-    st.write("3. soit nous supprimons complètement cette colonne car la distribution pourrait impacter négativement notre modèle.")
+    st.write("Nous avons réfléchi à 3 options :")
+    st.write("1. Soit nous gardons cette variable dans le dataset et nous supprimons les lignes 'unknown'. Cela a pour conséquence de réduire considérablement la taille de notre dataset. Mais nous serons certainement amenés à le réduire dans tous les cas par la suite.")
+    st.write("2. Soit nous la gardons telle quelle. Nous pouvons choisir un modèle qui peut être entraîné avec ce type de donnée, et nous verrons l’impact.")
+    st.write("3. Soit nous supprimons complètement cette colonne car la distribution pourrait impacter négativement notre modèle.")
     st.write("Nous sommes plutôt partis sur la deuxième solution, car outre les 'unknown' et 'other', la distribution de la variable est plutôt bonne.")
     
     st.write("- contact")
@@ -73,10 +75,13 @@ bank_cleaned['duration'] = bank_cleaned['duration'] // 60
     st.code(code, language='python')
     bank_cleaned['duration'] = bank_cleaned['duration'] // 60
     st.write(bank_cleaned.head())
+    
     st.write("### Nombre total de lignes après nettoyage:")
     st.write(bank_cleaned.shape[0])
+    
     st.write("### Aperçu des premières lignes des données nettoyées:")
     st.write(bank_cleaned.head())
+    
     # Affichage côte à côte des tableaux de statistiques
     col1, col2 = st.columns(2)
     
@@ -87,8 +92,8 @@ bank_cleaned['duration'] = bank_cleaned['duration'] // 60
     with col2:
         st.write("### Outliers sur la colonne 'duration':")
         st.write(bank_cleaned['duration'].describe())
-    return bank_cleaned
     
+    return bank_cleaned
 
-
-
+# Exécution du prétraitement des données
+bank_cleaned = preprocess_data(bank)
