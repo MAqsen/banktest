@@ -2,10 +2,6 @@ import streamlit as st
 url = 'https://raw.githubusercontent.com/sdrcr74/bank_nov23/main/bank.csv'
 bank = pd.read_csv(url)
 
-# Chargement du jeu de données
-bank = pd.read_csv(url)
-
-
 # Affichage de l'image et des titres
 st.image("https://raw.githubusercontent.com/sdrcr74/bank_nov23/main/logo2.jpeg")
 st.markdown("<h1 style='text-align: justify;'>Prédiction du succès d'une campagne de Marketing d’une banque</h1>", unsafe_allow_html=True)
