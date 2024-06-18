@@ -87,5 +87,12 @@ bank_cleaned['duration'] = bank_cleaned['duration'] // 60
         st.write("### Outliers sur la colonne 'duration':")
         st.write(bank_cleaned['duration'].describe())
     return bank_cleaned
-
+    
+# Téléchargement du fichier
+uploaded_file = st.file_uploader("Choisir un fichier CSV", type="csv")
+if uploaded_file is not None:
+    bank = pd.read_csv(uploaded_file)
+    bank_cleaned = preprocess_data(bank)
+else:
+    st.write("Veuillez télécharger un fichier CSV pour commencer le prétraitement des données.")
 
