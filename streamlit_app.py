@@ -6,6 +6,11 @@ url = 'https://raw.githubusercontent.com/sdrcr74/bank_nov23/main/bank.csv'
 
 # Chargement du jeu de données
 bank = pd.read_csv(url)
+# Téléchargement du fichier
+uploaded_file = st.file_uploader("Choisir un fichier CSV", type="csv")
+if uploaded_file is not None:
+    bank = pd.read_csv(uploaded_file)
+    bank_cleaned = preprocess_data(bank)
 
 # Affichage de l'image et des titres
 st.image("https://raw.githubusercontent.com/sdrcr74/bank_nov23/main/logo2.jpeg")
@@ -78,13 +83,6 @@ bank_cleaned['duration'] = bank_cleaned['duration'] // 60
     st.write(bank_cleaned.shape[0])
     return bank_cleaned
 
-
-
-# Téléchargement du fichier
-uploaded_file = st.file_uploader("Choisir un fichier CSV", type="csv")
-if uploaded_file is not None:
-    bank = pd.read_csv(uploaded_file)
-    bank_cleaned = preprocess_data(bank)
     st.write("### Aperçu des premières lignes des données nettoyées:")
     st.write(bank_cleaned.head())
 
