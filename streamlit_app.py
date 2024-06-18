@@ -13,15 +13,16 @@ st.markdown("<h1 style='text-align: justify;'>Prédiction du succès d'une campa
 st.subheader("Maxence Malherre, Sophie Dorcier, Stéphane Lascaux, Van-Anh HA")
 st.subheader("NOV23_CONTINU_DA - Datascientest", divider='rainbow')
 
-st.write("### Nombre total de lignes après nettoyage:")
-st.write(bank.shape[0])
+# Titre de la page
+st.title("Preprocessing des données bancaires")
 
 # Fonction de prétraitement des données
 def preprocess_data(bank):
     st.write("Suite à ces analyses nous pouvons passer au pré-processing du jeu de données.")
     
     st.write("Comme vu précédemment, le jeu de données est propre car il ne contient aucun doublon ni valeurs manquantes. Il dispose malgré tout de nombreuses valeurs insignifiantes tel que 'unknown'(11239) et 'others'(537). Nous avons décidé de supprimer la valeur 'unknown' des variables 'job' et 'education' car cela n'impactera pas le dataset au vu du faible volume de cette valeur.")
-    
+    st.write("### Nombre total de lignes avant nettoyage:")
+    st.write(bank.shape[0])
     # Suppression des lignes avec les valeurs 'unknown' pour les colonnes 'job' et 'education'
     code = """
 # Suppression des lignes avec les valeurs 'unknown' pour les colonnes 'job' et 'education'
@@ -75,9 +76,11 @@ bank_cleaned['duration'] = bank_cleaned['duration'] // 60
     st.write(bank_cleaned.head())
     
     return bank_cleaned
+    
+st.write("### Nombre total de lignes après nettoyage:")
+st.write(bank_cleaned.shape[0])
 
-# Titre de la page
-st.title("Prétraitement des données bancaires")
+
 
 # Téléchargement du fichier
 uploaded_file = st.file_uploader("Choisir un fichier CSV", type="csv")
@@ -86,8 +89,7 @@ if uploaded_file is not None:
     bank_cleaned = preprocess_data(bank)
    
 
-    st.write("### Nombre total de lignes après nettoyage:")
-    st.write(bank_cleaned.shape[0])
+    
     
     st.write("### Statistiques sur la colonne 'previous':")
     st.write(bank_cleaned['previous'].describe())
