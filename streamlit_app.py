@@ -1,8 +1,11 @@
 import streamlit as st
 import pandas as pd
+import plotly.express as px
+import matplotlib.pyplot as plt
+import seaborn as sns
 
-# URL du jeu de données
-url = 'https://github.com/MAqsen/banktest/blob/main/bank%20dataset.csv'
+url = 'https://raw.githubusercontent.com/sdrcr74/bank_nov23/main/bank.csv'
+bank = pd.read_csv(url)
 
 # Chargement du jeu de données
 bank = pd.read_csv(url)
