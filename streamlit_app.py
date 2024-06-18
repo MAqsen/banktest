@@ -85,17 +85,18 @@ uploaded_file = st.file_uploader("Choisir un fichier CSV", type="csv")
 if uploaded_file is not None:
     bank = pd.read_csv(uploaded_file)
     bank_cleaned = preprocess_data(bank)
-   
-
-    
-    
-    st.write("### Statistiques sur la colonne 'previous':")
-    st.write(bank_cleaned['previous'].describe())
-    
-    st.write("### Statistiques sur la colonne 'duration':")
-    st.write(bank_cleaned['duration'].describe())
-
-    st.write("### Aperçu des premières lignes des données nettoyées:")
+   st.write("### Aperçu des premières lignes des données nettoyées:")
     st.write(bank_cleaned.head())
+
+    # Affichage côte à côte des tableaux de statistiques
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.write("### Outliers sur la colonne 'previous':")
+        st.write(bank_cleaned['previous'].describe())
+    
+    with col2:
+        st.write("### Outliers sur la colonne 'duration':")
+        st.write(bank_cleaned['duration'].describe())
 else:
     st.write("Veuillez télécharger un fichier CSV pour commencer le prétraitement des données.")
