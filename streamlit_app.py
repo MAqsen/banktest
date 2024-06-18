@@ -10,7 +10,7 @@ def preprocess_data(bank):
     # Suppression des lignes avec les valeurs 'unknown' pour les colonnes 'job' et 'education'
     bank_cleaned = bank.drop(bank.loc[bank["job"] == "unknown"].index, inplace=False)
     bank_cleaned = bank_cleaned.drop(bank_cleaned.loc[bank_cleaned["education"] == "unknown"].index, inplace=False)
-    display(bank_cleaned)
+    return bank_cleaned
 
     st.write("Nous avons eu une réflexion pour certaines variables :")
     
