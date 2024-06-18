@@ -74,11 +74,9 @@ bank_cleaned['duration'] = bank_cleaned['duration'] // 60
     st.code(code, language='python')
     bank_cleaned['duration'] = bank_cleaned['duration'] // 60
     st.write(bank_cleaned.head())
-    
+    st.write("### Nombre total de lignes après nettoyage:")
+    st.write(bank_cleaned.shape[0])
     return bank_cleaned
-    
-st.write("### Nombre total de lignes après nettoyage:")
-st.write(bank_cleaned.shape[0])
 
 
 
