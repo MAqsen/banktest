@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 url = 'https://raw.githubusercontent.com/sdrcr74/bank_nov23/main/bank.csv'
 bank = pd.read_csv(url)
-st.image("https://raw.githubusercontent.com/sdrcr74/bank_nov23/main/logo2.jpeg")
 st.markdown("<h1 style='text-align: justify;'>Prédiction du succès d'une campagne de Marketing d’une banque</h1>", unsafe_allow_html=True)
 st.subheader("Maxence Malherre, Sophie Dorcier, Stéphane Lascaux, Van-Anh HA")
 st.subheader("NOV23_CONTINU_DA - Datascientest", divider='rainbow')
