@@ -17,6 +17,9 @@ st.subheader("NOV23_CONTINU_DA - Datascientest", divider='rainbow')
 def preprocess_data(bank):
     st.write("Suite à ces analyses nous pouvons passer au pré-processing du jeu de données.")
     
+    st.write("Comme vu précédemment, le jeu de données est propre car il ne contient aucun doublon ni valeurs manquantes. Il dispose malgré tout de nombreuses valeurs insignifiantes tel que 'unknown'(11239) et 'others'(537). Nous avons décidé de supprimer la valeur 'unknown' des variables 'job' et 'education' car cela n'impactera pas le dataset au vu du faible volume de cette valeur.")
+    
+    # Suppression des lignes avec les valeurs 'unknown' pour les colonnes 'job' et 'education'
     code = """
 # Suppression des lignes avec les valeurs 'unknown' pour les colonnes 'job' et 'education'
 bank_cleaned = bank.drop(bank.loc[bank["job"] == "unknown"].index, inplace=False)
@@ -25,7 +28,8 @@ bank_cleaned = bank_cleaned.drop(bank_cleaned.loc[bank_cleaned["education"] == "
     st.code(code, language='python')
     bank_cleaned = bank.drop(bank.loc[bank["job"] == "unknown"].index, inplace=False)
     bank_cleaned = bank_cleaned.drop(bank_cleaned.loc[bank_cleaned["education"] == "unknown"].index, inplace=False)
-    
+    st.write(bank_cleaned.head())
+
     st.write("Nous avons eu une réflexion pour certaines variables :")
     
     st.write("- poutcome")
@@ -41,21 +45,25 @@ bank_cleaned = bank_cleaned.drop(bank_cleaned.loc[bank_cleaned["education"] == "
     st.write("- pdays")
     st.write("Nous avons décidé de supprimer cette colonne à cause de la valeur -1 sur-représentée et que nous ne sommes pas sûrs de bien interpréter.")
     
+    # Suppression des colonnes 'contact' et 'pdays'
     code = """
 # Suppression des colonnes 'contact' et 'pdays'
 bank_cleaned = bank_cleaned.drop(['contact', 'pdays'], axis=1)
     """
     st.code(code, language='python')
     bank_cleaned = bank_cleaned.drop(['contact', 'pdays'], axis=1)
+    st.write(bank_cleaned.head())
     
     st.write("Nous avons également transformé la durée en minute sur Duration.")
     
+    # Transformation de la durée en minutes
     code = """
 # Transformation de la durée en minutes
 bank_cleaned['duration'] = bank_cleaned['duration'] // 60
     """
     st.code(code, language='python')
     bank_cleaned['duration'] = bank_cleaned['duration'] // 60
+    st.write(bank_cleaned.head())
     
     return bank_cleaned
 
